@@ -6,4 +6,3 @@ setup(
     description='The patcher',
     packages=['patcher'],
 )
-~        
