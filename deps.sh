@@ -30,11 +30,11 @@ cd keystone && mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DLLVM_TARGETS_TO_BUILD="all" -G "Unix Makefiles" .. && make -j2
 echo
 
-echo "[*] Building Capstone"
-cd "$build"
-git clone https://github.com/aquynh/capstone.git
-cd capstone && make -j2
-echo
+#echo "[*] Building Capstone"
+#cd "$build"
+#git clone https://github.com/aquynh/capstone.git
+#cd capstone && make -j2
+#echo
 
 echo "[*] Building Unicorn"
 cd "$build"
