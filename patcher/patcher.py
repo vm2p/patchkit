@@ -4,13 +4,13 @@ import os
 import sys
 import traceback
 
-from binary import Binary
+from elf_binary import ElfBinary
 
 class Patcher:
     def __init__(self, binary, verbose=False, cflags=None, silent=False):
-        self.bin = Binary(binary)
+        self.bin = ElfBinary(binary)
         self.bin.verbose = verbose
-        self.bin.linker.cflags = cflags or []
+        #self.bin.linker.cflags = cflags or []
         self.patches = []
         self.patchfiles = []
         self.verbose = verbose
