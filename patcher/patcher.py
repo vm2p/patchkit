@@ -4,7 +4,7 @@ import os
 import sys
 import traceback
 
-from binary import Binary
+from .binary import Binary
 
 class Patcher:
     def __init__(self, binary, verbose=False, cflags=None, silent=False):
