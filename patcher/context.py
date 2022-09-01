@@ -1,9 +1,9 @@
 import capstone
 import binascii
 
-import arch
-import compiler
-from func import Func
+from .arch import *
+from .compiler import *
+from .func import Func
 from util import stdlib
 from util.elffile import EM
 from util.patch.dis import irdis, IR, IRStream
@@ -78,12 +78,12 @@ class Context(object):
                         if self.func_printed is not None:
                             print
                         func = self.current_func
-                        print indent + '[FUNC] @0x%x-0x%x' % (func.addr, func.addr + func.size)
+                        print (indent + '[FUNC] @0x%x-0x%x' % (func.addr, func.addr + func.size))
                         self.func_printed = self.current_func
                     indent += ' '
                 if kwargs.get('prefix'):
                     indent += kwargs['prefix'] + ' '
-                print indent + line
+                print (indent + line)
 
         dis = kwargs.get('dis', None)
         if dis:

@@ -29,7 +29,7 @@ class Patcher:
 
     def debug(self, *args):
         if not self.silent:
-            print >>sys.stderr, ' '.join(map(str, args))
+            print (>>sys.stderr, ' '.join(map(str, args)))
 
     def patch(self):
         cwd = os.getcwd()

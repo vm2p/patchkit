@@ -5,8 +5,8 @@ from util import autolink
 from util import elffile
 from util.elffile import PT
 
-from context import Context
-from linker import Linker
+from .context import Context
+from .linker import Linker
 
 class Binary:
     def __init__(self, path):
@@ -90,7 +90,7 @@ class Binary:
     def save(self, path):
         self.nxpatch.flags &= ~1
 
-        print '[+] Saving binary to: %s' % path
+        print ('[+] Saving binary to: ' + path)
         # hooking the entry point is a special case that generates a more efficient call table
         if self.entry_hooks:
             with self.collect() as pt:
@@ -108,4 +108,4 @@ class Binary:
                 self.elf.progs.remove(prog)
 
         self.elf.save(path)
-        os.chmod(path, 0755)
+        os.chmod(path, 0o0755)

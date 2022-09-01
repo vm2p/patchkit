@@ -6,7 +6,7 @@ from util import read
 __all__ = ['declare']
 
 header_names = ['stdlib/types.h', 'stdlib/defines.h', 'stdlib/syscall.h']
-headers = '\n'.join(map(read, header_names))
+headers = b'\n'.join(map(read, header_names))
 
 def declare(linker):
     if not '_terminate' in linker:

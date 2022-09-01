@@ -40,7 +40,7 @@ def clean(asm):
             elif section.startswith(('.text', '__TEXT')):
                 cur = text
             else:
-                print 'unknown section', section
+                print ('unknown section', section)
             continue
 
         if line.startswith('.text'):
