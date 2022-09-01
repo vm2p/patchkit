@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 
-import compiler
+from .compiler import *
 import re
 
 STUB_PRE = '__attribute__((noinline,weak)) '
