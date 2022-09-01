@@ -102,7 +102,7 @@ def compile(code, linker, syms=()):
     if 'error:' in err.lower():
         raise BuildError(err)
     elif err:
-        print err
+        print (err)
 
     asm = linker.post(asm, syms=syms)
     asm = clean(asm)
