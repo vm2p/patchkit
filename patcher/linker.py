@@ -90,7 +90,7 @@ class Linker:
             self.declare(symbols={name: func['desc']}, source=func['all'])
 
     def autodecl(self, src):
-        syms = [m[2] for m in re.findall(func_re_1 % '\w+', src, re.MULTILINE)]
+        syms = [m[2] for m in re.findall(str.encode(func_re_1 % '\w+'), src, re.MULTILINE)]
 
         for name in syms:
             func = self.getfunc(src, name)
