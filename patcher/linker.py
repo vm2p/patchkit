@@ -81,7 +81,7 @@ class Linker:
 
     @staticmethod
     def getfunc(src, name):
-        match = re.search(func_re_1 % re.escape(name), src, re.MULTILINE)
+        match = re.search(str.encode(func_re_1 % re.escape(name)), src, re.MULTILINE)
         return match.groupdict()
 
     def declarefuncs(self, src, names):
@@ -173,7 +173,7 @@ class Linker:
         for ref in refs:
             # TODO: clean asm first?
             find_ref = r'\b_%s\b' % (re.escape(ref))
-            if re.search(find_ref, asm):
+            if re.search(str.encode(find_ref), asm):
                 asm = re.sub(find_ref, '0x%x' % self.resolve(ref), asm)
 
         return asm
