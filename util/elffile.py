@@ -891,7 +891,7 @@ class ElfFile(StructBase):
                 continue
             p.filesz = len(p.data)
             # FIXME: repatching a file will spew PHDRs at the end of TEXT
-            if p.offset is 0:
+            if p.offset == 0:
                 p.filesz += phsize
                 x = offset + p.filesz
             else:
