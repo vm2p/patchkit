@@ -25,7 +25,7 @@ class Binary:
         start = 0xFFFFFFFFFFFFFFFF
         end = 0
         # TODO: doesn't handle new mem being mapped or unmapped
-	for ph in reversed(self.elf.progs):
+        for ph in reversed(self.elf.progs):
             if ph.isload:
                 if ph.align > 0x2000: # prevent from alignment being too big
                     ph.align = 0x2000
@@ -73,7 +73,7 @@ class Binary:
         return self._seg(target).vend
 
     def alloc(self, size, target='patch'):
-	size += 0x20 # account for padding
+        size += 0x20 # account for padding
         ph = self._seg(target)
         tmp = self.next_alloc(target)
         ph.data += '\0' * size
