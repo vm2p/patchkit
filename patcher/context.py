@@ -16,15 +16,15 @@ class Context(object):
         self.binary = binary
         self.verbose = verbose
         machine = EM[binary.elf.header.machine]
-        cflags = binary.linker.cflags
+        #cflags = binary.linker.cflags
         if machine == EM['EM_386']:
-            self.arch = arch.x86()
-            cflags.append('-m32')
+            self.arch = x86()
+            #cflags.append('-m32')
         elif machine == EM['EM_X86_64']:
-            self.arch = arch.x86_64()
-            cflags.append('-m64')
+            self.arch = x86_64()
+            #cflags.append('-m64')
         elif machine == EM['EM_ARM']:
-            self.arch = arch.arm()
+            self.arch = arm()
         else:
             raise NotImplementedError("Unknown machine: %s" % machine)
 
@@ -263,7 +263,10 @@ class Context(object):
         if typ == 'asm' or is_asm:
             dis = self.arch.dis(raw, addr=addr)
             for ins in dis:
-                if ins.bytes == 'ebfe'.decode('hex'):
+                print("aqui = " + str(ins.bytes))
+                print("aqui = " + str(b"".join(str(b).encode() for b in ins.bytes)))
+                #if ins.bytes == str('ebfe'.decode('hex')).encode():
+                if b"".join(str(b).encode() for b in ins.bytes) == str(int('ebfe', 16)).encode():
                     self.warn('JMP 0 emitted!')
 
     def _compile(self, addr, **kwargs):

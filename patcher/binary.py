@@ -76,7 +76,7 @@ class Binary:
         size += 0x20 # account for padding
         ph = self._seg(target)
         tmp = self.next_alloc(target)
-        ph.data += '\0' * size
+        ph.data += b'\0' * size
         ph.memsz += size
         ph.filesz += size
         return tmp
