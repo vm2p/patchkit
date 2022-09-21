@@ -60,6 +60,7 @@ class Coding(object):
         self.bycode[code] = c
 
     def __getitem__(self, key):
+        print ("type key = " + str(type(key)))
         if isinstance(key, str):
             return self.byname[key]
         elif isinstance(key, int):
