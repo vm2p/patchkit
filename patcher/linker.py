@@ -81,7 +81,7 @@ class Linker:
 
     @staticmethod
     def getfunc(src, name):
-        match = re.search(str.encode(func_re_1 % re.escape(name)), src, re.MULTILINE)
+        match = re.search(str.encode(func_re_1 % re.escape(name).decode('utf-8')), src, re.MULTILINE)
         return match.groupdict()
 
     def declarefuncs(self, src, names):

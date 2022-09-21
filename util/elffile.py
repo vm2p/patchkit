@@ -949,12 +949,15 @@ class ElfFile(StructBase):
 
         length = sum([len(s) + 1 for s in strings]) + 1
         data = strtab.data = bytearray(length)
-        data[0] = b'\0'
+        print(str(type(data)) + " " + str(type(data[0])) + " " + str(type(b'\0')))
+        #data[0] = b'\0'
+        data[0] = 0
         p = 1
         for s in strings:
             data[p:p+len(s)] = s
             p += len(s) + 1
-            data[p - 1] = b'\0'
+            data[p - 1] = 0
+            #data[p - 1] = b'\0'
 
         for s in self.sections:
             s.nameoffset = data.find(s.name + b'\0')
@@ -1070,7 +1073,9 @@ class ElfFile(StructBase):
             off = vaddr - ph.vaddr
             size = min(ph.memsz - off, len(data))
             if off + ph.vsize >= len(data):
-                ph.data[off:off+size] = data[:size]
+                print(str(type(ph.data[off:off+size])) + " " + str(type(data[:size])))
+                if isinstance(data[:size], bytes): ph.data[off:off+size] = data[:size]
+                else: ph.data[off:off+size] = data[:size].encode()
             else:
                 raise IOError('not enough space to write 0x%x bytes at vaddr 0x%x' % (len(data), vaddr))
         else:

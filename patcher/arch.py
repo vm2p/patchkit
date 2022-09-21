@@ -22,7 +22,8 @@ class Arch:
         return ''.join(map(chr, tmp))
 
     def dis(self, raw, addr=0):
-        return list(self.cs.disasm(str(raw), addr))
+        print ("its " + str(raw))
+        return list(self.cs.disasm((b"".join(str(b).encode() for b in raw)), addr))
 
     def jmp(self, dst):
         raise NotImplementedError
