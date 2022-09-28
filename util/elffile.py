@@ -60,10 +60,12 @@ class Coding(object):
         self.bycode[code] = c
 
     def __getitem__(self, key):
-        print ("type key = " + str(type(key)))
+        #print ("type key = " + str(type(key)))
         if isinstance(key, str):
+            #print ("type key = " + str(type(key)))
             return self.byname[key]
         elif isinstance(key, int):
+            #print ("type key = " + str(type(key)))
             return self.bycode[key]
         else:
             raise KeyError(key)

@@ -109,3 +109,6 @@ class Binary:
 
         self.elf.save(path)
         os.chmod(path, 0o0755)
+
+    ## from ALICE TODO: check all this
+    
