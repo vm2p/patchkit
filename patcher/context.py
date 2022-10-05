@@ -113,7 +113,7 @@ class Context(object):
         nops = 0
         just = max(len(i.bytes) for i in dis)
 
-        pnop = lambda: ('0x%x: %s nop (x%d)' % (nop_start, binascii.hexlify(nop_bytes).ljust(just * 2), nops))
+        pnop = lambda: ('0x%x: %s nop (x%d)' % (nop_start, binascii.hexlify(nop_bytes.encode()).ljust(just * 2), nops))
 
         for i in dis:
             if i.mnemonic == 'nop':
