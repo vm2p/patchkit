@@ -260,6 +260,7 @@ class Context(object):
         self.patch(src, raw=stage1, is_asm=True, internal=True, desc='hook entry point')
 
     def _lint(self, addr, raw, typ, is_asm=False):
+        print("funcao _lint")
         if typ == 'asm' or is_asm:
             dis = self.arch.dis(raw, addr=addr)
             for ins in dis:
