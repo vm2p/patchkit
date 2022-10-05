@@ -1076,7 +1076,8 @@ class ElfFile(StructBase):
             size = min(ph.memsz - off, len(data))
             if off + ph.vsize >= len(data):
                 print(str(type(ph.data[off:off+size])) + " " + str(type(data[:size])))
-                if isinstance(data[:size], bytes): ph.data[off:off+size] = data[:size]
+                if isinstance(data[:size], bytearray): ph.data[off:off+size] = data[:size]
+                elif isinstance(data[:size], bytes): ph.data[off:off+size] = data[:size]
                 else: ph.data[off:off+size] = data[:size].encode()
             else:
                 raise IOError('not enough space to write 0x%x bytes at vaddr 0x%x' % (len(data), vaddr))
