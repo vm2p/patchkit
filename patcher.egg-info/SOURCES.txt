@@ -1,0 +1,15 @@
+LICENSE
+README.md
+setup.py
+patcher/__init__.py
+patcher/arch.py
+patcher/binary.py
+patcher/compiler.py
+patcher/context.py
+patcher/func.py
+patcher/linker.py
+patcher/patcher.py
+patcher.egg-info/PKG-INFO
+patcher.egg-info/SOURCES.txt
+patcher.egg-info/dependency_links.txt
+patcher.egg-info/top_level.txt
