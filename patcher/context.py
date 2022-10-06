@@ -323,7 +323,7 @@ class Context(object):
             if typ == 'asm' or is_asm:
                 self.debug(dis=self.arch.dis(raw, addr=addr))
             else:
-                self.debug(binascii.hexlify(raw.encode()))
+                self.debug((binascii.hexlify(raw)).encode())
 
         addr = self.binary.alloc(len(raw), target=target)
         if mark_func:
