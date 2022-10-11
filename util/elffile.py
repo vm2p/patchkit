@@ -951,7 +951,7 @@ class ElfFile(StructBase):
 
         length = sum([len(s) + 1 for s in strings]) + 1
         data = strtab.data = bytearray(length)
-        print(str(type(data)) + " " + str(type(data[0])) + " " + str(type(b'\0')))
+        #print(str(type(data)) + " " + str(type(data[0])) + " " + str(type(b'\0')))
         #data[0] = b'\0'
         data[0] = 0
         p = 1
@@ -1068,6 +1068,8 @@ class ElfFile(StructBase):
         raise IOError('could not find segment containing 0x%x' % vaddr)
 
     def write(self, vaddr, data):
+        print('write this ' + str(data) + ' into this ' + hex(vaddr))
+
         """Write data to virtual address space. Won't cross program header boundaries."""
         progs = [p for p in reversed(self.progs) if vaddr in p and PT[p.type] == PT['PT_LOAD']]
         if progs:
@@ -1075,7 +1077,7 @@ class ElfFile(StructBase):
             off = vaddr - ph.vaddr
             size = min(ph.memsz - off, len(data))
             if off + ph.vsize >= len(data):
-                print(str(type(ph.data[off:off+size])) + " " + str(type(data[:size])))
+                #print(str(type(ph.data[off:off+size])) + " " + str(type(data[:size])))
                 if isinstance(data[:size], bytearray): ph.data[off:off+size] = data[:size]
                 elif isinstance(data[:size], bytes): ph.data[off:off+size] = data[:size]
                 else: ph.data[off:off+size] = data[:size].encode()

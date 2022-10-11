@@ -95,7 +95,7 @@ class Binary:
         if self.entry_hooks:
             with self.collect() as pt:
                 # call each hook addr then jump to original entry point
-                calls = map(pt.arch.call, self.entry_hooks) + [pt.arch.jmp(pt.entry)]
+                calls = list(map(pt.arch.call, self.entry_hooks)) + [pt.arch.jmp(pt.entry)]
                 addr = pt.inject(asm=';'.join(calls), internal=True)
                 pt.entry = addr
 

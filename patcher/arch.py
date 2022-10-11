@@ -12,7 +12,9 @@ class Arch:
         if not asm:
             return ''
         # asm start label for use with relative offsets
-        asm = '_PKST_:;' + asm
+        if isinstance(asm, bytes):
+            asm = b'_PKST_:;' + asm
+        else: asm = '_PKST_:;' + asm
 
         saved = self.ks.syntax
         if att_syntax:
@@ -22,8 +24,15 @@ class Arch:
         return ''.join(map(chr, tmp))
 
     def dis(self, raw, addr=0):
-        print ("its " + str(raw))
-        return list(self.cs.disasm((b"".join(str(b).encode() for b in raw)), addr))
+        #print ("its " + str(raw))
+        print('raw = ' + str(raw))
+        if isinstance(raw, bytearray):
+            return list(self.cs.disasm(raw, addr))
+        elif isinstance(raw, str):
+            return list(self.cs.disasm((raw.encode()), addr))
+        else:
+            return list(self.cs.disasm(raw, addr))
+            #return list(self.cs.disasm((b"".join(b for b in raw)), addr))
 
     def jmp(self, dst):
         raise NotImplementedError

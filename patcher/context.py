@@ -202,7 +202,7 @@ class Context(object):
 
         # our injected code is guaranteed to be sequential and unaligned
         # so we can inject twice and call the first one
-        evicted = ''
+        evicted = b''
         # eh we'll just trust that a call won't be anywhere near 64 bytes
         ins = self.dis(src)
         for ins in ins:
@@ -210,7 +210,9 @@ class Context(object):
             if len(evicted) >= len(call):
                 break
 
-        evicted = evicted.strip(self.asm(self.arch.nop())) # your loss
+        #print("tpye = " + str(type(self.asm(self.arch.nop()))))
+        #print("tpye = " + str(type(self.asm(self.arch.nop()))))
+        #evicted = evicted.strip(self.asm(self.arch.nop())) # your loss
         if len(evicted) == 0 and False:
             self.patch(src, asm=self.arch.call(dst))
             return
@@ -227,7 +229,7 @@ class Context(object):
 
         emptyjmp = self.asm(self.arch.jmp(self.binary.next_alloc()), addr=src)
         jmpoff = src + len(evicted)
-        jmpevict = str(self.elf.read(jmpoff, len(emptyjmp)))
+        jmpevict = self.elf.read(jmpoff, len(emptyjmp))
 
         stage0 = evicted + jmpevict
         # TODO: self.alloc()?
@@ -250,9 +252,9 @@ class Context(object):
         # we need to overwrite both stages because we didn't know the hook addrs at the time
         stage1 = self.asm(';'.join(
             (self.arch.jmp(hook1),) + (self.arch.nop(),) * (len(evicted) - len(emptyjmp)),
-        ), addr=src) + jmpevict
+        ), addr=src).encode() + jmpevict
         self.patch(stage1_addr, raw=stage1, is_asm=True, internal=True, desc='hook stage 1')
-        stage2 = evicted + self.asm(self.arch.jmp(hook2), addr=jmpoff)
+        stage2 = evicted + self.asm(self.arch.jmp(hook2), addr=jmpoff).encode()
         self.patch(stage2_addr, raw=stage2, is_asm=True, internal=True, desc='hook stage 2')
 
         # TODO: act more like mobile substrate wrt orig calling?
@@ -260,12 +262,12 @@ class Context(object):
         self.patch(src, raw=stage1, is_asm=True, internal=True, desc='hook entry point')
 
     def _lint(self, addr, raw, typ, is_asm=False):
-        print("funcao _lint")
+        #print("funcao _lint")
         if typ == 'asm' or is_asm:
             dis = self.arch.dis(raw, addr=addr)
             for ins in dis:
-                print("aqui = " + str(ins.bytes))
-                print("aqui = " + str(b"".join(str(b).encode() for b in ins.bytes)))
+                #print("aqui = " + str(ins.bytes))
+                #print("aqui = " + str(b"".join(str(b).encode() for b in ins.bytes)))
                 #if ins.bytes == str('ebfe'.decode('hex')).encode():
                 if b"".join(str(b).encode() for b in ins.bytes) == str(int('ebfe', 16)).encode():
                     self.warn('JMP 0 emitted!')
@@ -305,12 +307,17 @@ class Context(object):
         addr = self.binary.next_alloc(target)
         c = kwargs.get('c')
         if c:
+            print("here")
             asm = compiler.compile(c, self.binary.linker)
             raw = self.asm(asm, addr=addr, att_syntax=True)
             typ = 'c'
             is_asm = True
         else:
+            print("here2")
             raw, typ = self._compile(addr, **kwargs)
+
+        #raw, typ = (kwargs.get('raw', ''), 'raw')
+        print("raw " + str(raw))
 
         self._lint(addr, raw, typ, is_asm=kwargs.get('is_asm'))
         if typ == 'asm':
@@ -323,8 +330,10 @@ class Context(object):
             if typ == 'asm' or is_asm:
                 self.debug(dis=self.arch.dis(raw, addr=addr))
             else:
-                print("type raw " = str(type(raw)))
-                self.debug(binascii.hexlify(raw))
+                if isinstance(raw, str):
+                    self.debug(binascii.hexlify(raw.encode()))
+                else:
+                    self.debug(binascii.hexlify(raw))
 
         addr = self.binary.alloc(len(raw), target=target)
         if mark_func:
@@ -348,6 +357,7 @@ class Context(object):
 
         if typ == 'asm' or kwargs.get('is_asm'):
             size = len(''.join([str(i.bytes) for i in self.dis(addr, len(raw))]))
+            print('size = ' + str(size) + 'str(len(raw)) ' + str(len(raw)) + ' ' + str(kwargs.get('internal')))
             if size != len(raw) and not kwargs.get('internal'):
                 self.warn('Assembly patch is not aligned with underlying instructions.')
 
