@@ -1068,7 +1068,7 @@ class ElfFile(StructBase):
         raise IOError('could not find segment containing 0x%x' % vaddr)
 
     def write(self, vaddr, data):
-        print('write this ' + str(data) + ' into this ' + hex(vaddr))
+        #print('write this ' + str(data) + ' into this ' + hex(vaddr))
 
         """Write data to virtual address space. Won't cross program header boundaries."""
         progs = [p for p in reversed(self.progs) if vaddr in p and PT[p.type] == PT['PT_LOAD']]
