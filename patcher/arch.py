@@ -25,7 +25,7 @@ class Arch:
 
     def dis(self, raw, addr=0):
         #print ("its " + str(raw))
-        print('raw = ' + str(raw))
+        #print('raw = ' + str(raw))
         if isinstance(raw, bytearray):
             return list(self.cs.disasm(raw, addr))
         elif isinstance(raw, str):

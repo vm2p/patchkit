@@ -307,17 +307,17 @@ class Context(object):
         addr = self.binary.next_alloc(target)
         c = kwargs.get('c')
         if c:
-            print("here")
+            #print("here")
             asm = compiler.compile(c, self.binary.linker)
             raw = self.asm(asm, addr=addr, att_syntax=True)
             typ = 'c'
             is_asm = True
         else:
-            print("here2")
+            #print("here2")
             raw, typ = self._compile(addr, **kwargs)
 
         #raw, typ = (kwargs.get('raw', ''), 'raw')
-        print("raw " + str(raw))
+        #print("raw " + str(raw))
 
         self._lint(addr, raw, typ, is_asm=kwargs.get('is_asm'))
         if typ == 'asm':
